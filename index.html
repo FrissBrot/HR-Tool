@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Aufträge</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-2"">
+        <h1>Aufträge</h1>
+        <input type=" text" id="searchInput" class="form-control" placeholder="Suche nach Aufträgen">
+        <table class="table table-bordered mt-3 table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>Auftrag</th>
+            </tr>
+          </thead>
+          <tbody id="odersTableBody">
+            <!-- Weitere Aufträge hier einfügen -->
+          </tbody>
+        </table>
+      </div>
+      <div class="col-3">
+        <h1>Aufgaben</h1>
+        <table class="table table-bordered mt-3">
+          <thead class="thead-light">
+            <tr>
+              <th>Aufgaben</th>
+              <th>Status</th>
+              <th>erledigen</th>
+            </tr>
+          </thead>
+          <tbody id="tasksTableBody">
+            <!-- Weitere Aufträge hier einfügen -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var searchInput = document.getElementById("searchInput");
+    var TableBody = document.getElementById("odersTableBody");
+
+    searchInput.addEventListener("keyup", function () {
+      var filter = searchInput.value.toLowerCase();
+      var rows = TableBody.getElementsByTagName("tr");
+
+      for (var i = 0; i < rows.length; i++) {
+        var cell = rows[i].getElementsByTagName("td")[0];
+        if (cell) {
+          var text = cell.innerText.toLowerCase();
+          rows[i].style.display = text.indexOf(filter) > -1 ? "" : "none";
+        }
+      }
+    });
+
+    // AJAX-Funktion, um die Backend-Anfrage zu senden
+    function sendRequest(action) {
+      return new Promise(function (resolve, reject) {
+        fetch('backend.php?action=' + action)
+          .then(function (response) {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then(function (data) {
+            resolve(data);
+          });
+      });
+    }
+
+
+    // Funktion aufrufen, wenn die Seite geladen ist
+    window.onload = function () {
+      sendRequest("GetOders")
+        .then(function (data) {
+          fillTableWithArray("odersTableBody", data);
+        });
+    };
+
+    function fillTableWithArray(table, data) {
+
+      console.log(data);
+      var odersTableBody = document.getElementById(table);
+
+      // Schleife über das Array, um die Einträge in die Tabelle einzufügen
+      for (var i = 0; i < data.names.length; i++) {
+        var id = data.names[i].id;
+        var name = data.names[i].name;
+
+        // Neue Zeile erstellen
+        var newRow = document.createElement("tr");
+
+        // Neue Zelle erstellen und den Namen einfügen
+        var nameCell = document.createElement("td");
+        nameCell.textContent = name;
+
+        // Klick-Ereignis an die Zelle anhängen
+        nameCell.addEventListener("click", createAlert.bind(null, id));
+
+        // Zelle zur Zeile hinzufügen
+        newRow.appendChild(nameCell);
+
+        // Zeile zur Tabelle hinzufügen
+        odersTableBody.appendChild(newRow);
+      }
+    }
+
+    function fillTableWithTasks(tasks) {
+      console.log("tasks")
+      var tableBody = document.getElementById('tasksTableBody');
+
+      // Schleife über alle Aufgaben im Array
+      for (var i = 0; i < tasks.length; i++) {
+        var task = tasks[i];
+
+        // Eine neue Zeile erstellen
+        var row = document.createElement('tr');
+
+        // Aufgabenname hinzufügen
+        var nameCell = document.createElement('td');
+        nameCell.textContent = task.name;
+        row.appendChild(nameCell);
+
+        // Aufgabenstatus hinzufügen
+        var statusCell = document.createElement('td');
+        statusCell.textContent = task.status;
+        row.appendChild(statusCell);
+
+        // Button erstellen und Event Listener hinzufügen
+        var buttonCell = document.createElement('td');
+        var button = document.createElement('button');
+        button.textContent = 'erledigen';
+        button.addEventListener('click', function (id) {
+          return function () {
+            console.log(id);
+          };
+        }(task.id)); // ID der Aufgabe in einer Closure speichern
+        buttonCell.appendChild(button);
+        row.appendChild(buttonCell);
+
+        // Zeile zur Tabelle hinzufügen
+        tableBody.appendChild(row);
+      }
+    };
+
+    // Funktion zum Erstellen eines Alert-Fensters mit der ID
+    function createAlert(id) {
+      sendRequest("GetTasksFromOrder&id=" + id)
+        .then(function (data) {
+          fillTableWithTasks(data)
+          console.log(data)
+        });
+    }
+
+  </script>
+</body>
+
+</html>
