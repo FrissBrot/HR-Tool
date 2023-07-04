@@ -1,7 +1,7 @@
 <?php
 // Das Array mit den Namen erstellen
 $names = [
-    ["id" => 1, "name" => "John"],
+    ["id" => 1, "name" => "John Miller"],
     ["id" => 2, "name" => "Emily"],
     ["id" => 3, "name" => "Michael"],
     ["id" => 4, "name" => "Sophia"],
@@ -15,14 +15,14 @@ $names = [
 ];
 
 $tasksTimo = [
-  ["id" => 1, "name" => "ad user löschen", "status" => "erledigt"],
-  ["id" => 2, "name" => "mailbox deaktivieren", "status" => "offen"],
-  ["id" => 3, "name" => "deaktivieren", "status" => "erledigt"],
+  ["id" => 1, "date" => "19.07.2023", "name" => "ad user löschen", "status" => "erledigt"],
+  ["id" => 2, "date" => "19.07.2023", "name" => "mailbox deaktivieren", "status" => "offen"],
+  ["id" => 3, "date" => "19.07.2023", "name" => "deaktivieren", "status" => "erledigt"],
 ];
 
 $tasksJohn = [
-  ["id" => 1, "name" => "essen"],
-  ["id" => 2, "name" => "hunger"],
+  ["id" => 1, "name" => "essen", "status" => "erledigt"],
+  ["id" => 2, "name" => "hunger", "status" => "erledigt"],
 
 ];
 

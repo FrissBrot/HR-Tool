@@ -16,6 +16,15 @@ function sendRequest(action) {
     });
 }
 
+function clearTable(TableID) {
+    var tableBody = document.getElementById(TableID);
+    if (tableBody.hasChildNodes()) {
+        while (tableBody.firstChild) {
+            tableBody.removeChild(tableBody.firstChild);
+        }
+    }
+}
+
 
 function fillTableWithArray(table, data) {
 
@@ -44,3 +53,70 @@ function fillTableWithArray(table, data) {
         odersTableBody.appendChild(newRow);
     }
 }
+
+function fillTableWithTasks(data) {
+    clearTable("tasksTableBody");
+    var tableBody = document.getElementById('tasksTableBody');
+
+    // Schleife über alle Aufgaben im Array
+    for (var i = 0; i < data.tasks.length; i++) {
+        var task = data.tasks[i];
+
+        // Eine neue Zeile erstellen
+        var row = document.createElement('tr');
+
+        // Aufgabenname hinzufügen
+        var nameCell = document.createElement('td');
+        nameCell.textContent = task.name;
+        row.appendChild(nameCell);
+
+        // Aufgabenstatus hinzufügen
+        var statusCell = document.createElement('td');
+        var statusSpan = document.createElement('span');
+        statusSpan.textContent = task.status;
+
+        // Klasse basierend auf dem Aufgabenstatus hinzufügen
+        if (task.status === 'offen') {
+            statusSpan.classList.add('badge', 'bg-primary');
+        } else if (task.status === 'erledigt') {
+            statusSpan.classList.add('badge', 'bg-success');
+        }
+
+        statusCell.appendChild(statusSpan);
+        row.appendChild(statusCell);
+
+        // Button-Container erstellen
+        var buttonCell = document.createElement('td');
+        var buttonGroup = document.createElement('div');
+        buttonGroup.classList.add('btn-group'); // Klasse hinzufügen
+
+        // "Erledigen"-Button erstellen und Event Listener hinzufügen
+        var completeButton = document.createElement('button');
+        completeButton.textContent = 'Erledigen';
+        completeButton.classList.add('btn', 'btn-danger'); // Klasse hinzufügen
+        completeButton.addEventListener('click', function (id) {
+            return function () {
+                console.log(id);
+            };
+        }(task.id)); // ID der Aufgabe in einer Closure speichern
+        buttonGroup.appendChild(completeButton);
+
+        // "Muss nicht gemacht werden"-Button erstellen und Event Listener hinzufügen
+        var skipButton = document.createElement('button');
+        skipButton.textContent = 'Muss nicht gemacht werden';
+        skipButton.classList.add('btn', 'btn-success'); // Klasse hinzufügen
+        skipButton.addEventListener('click', function (id) {
+            return function () {
+                console.log(id);
+            };
+        }(task.id)); // ID der Aufgabe in einer Closure speichern
+        buttonGroup.appendChild(skipButton);
+
+        buttonCell.appendChild(buttonGroup);
+        row.appendChild(buttonCell);
+
+        // Zeile zur Tabelle hinzufügen
+        tableBody.appendChild(row);
+    }
+};
+
