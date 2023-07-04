@@ -72,7 +72,7 @@ function fillTableWithTasks(data) {
         icon.src = 'assets/icons/calendar-date.svg';
         icon.alt = 'Date Icon';
 
-        nameCell.innerHTML = task.name + "<br>";
+        nameCell.innerHTML += "<span class='fs-1'>" + task.name + "</span><br>";
         nameCell.appendChild(icon);
         nameCell.innerHTML += "<span class='badge'>" + task.date + "</span>";
 
@@ -85,45 +85,43 @@ function fillTableWithTasks(data) {
 
         // Klasse basierend auf dem Aufgabenstatus hinzufügen
         if (task.status === 'offen') {
-            statusSpan.classList.add('badge', 'bg-primary');
+            statusSpan.classList.add('badge', 'bg-primary', 'w-100');
         } else if (task.status === 'erledigt') {
-            statusSpan.classList.add('badge', 'bg-success');
+            statusSpan.classList.add('badge', 'bg-success', 'w-100');
         }
 
         statusCell.appendChild(statusSpan);
         row.appendChild(statusCell);
 
-        // Button-Container erstellen und Buttons hinzufügen
+        // Buttons in der gleichen Zelle erstellen
         var buttonCell = document.createElement('td');
-        var buttonGroup = document.createElement('div');
-        buttonGroup.classList.add('btn-group');
 
         // "Erledigen"-Button erstellen und Event Listener hinzufügen
         var completeButton = document.createElement('button');
-        completeButton.textContent = 'Erledigen';
-        completeButton.classList.add('btn', 'btn-danger');
+        completeButton.textContent = 'done';
+        completeButton.classList.add('btn', 'btn-success');
         completeButton.addEventListener('click', function (id) {
             return function () {
                 console.log(id);
             };
         }(task.id));
-        buttonGroup.appendChild(completeButton);
+        buttonCell.appendChild(completeButton);
 
         // "Muss nicht gemacht werden"-Button erstellen und Event Listener hinzufügen
         var skipButton = document.createElement('button');
-        skipButton.textContent = 'Muss nicht gemacht werden';
-        skipButton.classList.add('btn', 'btn-success');
+        skipButton.textContent = 'skip';
+        skipButton.classList.add('btn', 'btn-warning', 'ml-2');
         skipButton.addEventListener('click', function (id) {
             return function () {
                 console.log(id);
             };
         }(task.id));
-        buttonGroup.appendChild(skipButton);
+        buttonCell.appendChild(skipButton);
 
-        buttonCell.appendChild(buttonGroup);
         row.appendChild(buttonCell);
 
         // Zeile zur Tabelle hinzufügen
         tableBody.appendChild(row);
     }
+
 }
