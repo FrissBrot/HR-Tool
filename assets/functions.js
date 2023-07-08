@@ -16,6 +16,24 @@ function sendRequest(action) {
     });
 }
 
+function searchTable(searchInput, TableBody) {
+    var searchInput = document.getElementById(searchInput);
+    var TableBody = document.getElementById(TableBody);
+
+    searchInput.addEventListener("keyup", function () {
+        var filter = searchInput.value.toLowerCase();
+        var rows = TableBody.getElementsByTagName("tr");
+
+        for (var i = 0; i < rows.length; i++) {
+            var cell = rows[i].getElementsByTagName("td")[0];
+            if (cell) {
+                var text = cell.innerText.toLowerCase();
+                rows[i].style.display = text.indexOf(filter) > -1 ? "" : "none";
+            }
+        }
+    });
+}
+
 function clearTable(TableID) {
     var tableBody = document.getElementById(TableID);
     if (tableBody.hasChildNodes()) {
