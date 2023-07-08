@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="/table/HR-Tool/assets/functions/function.js"></script>
+  <script src="/table/HR-Tool/assets/functions.js"></script>
   <title>Aufträge</title>
 </head>
 
@@ -31,9 +31,10 @@
         <table class="table table-dark mt-3 table-hover">
           <thead class="thead-light">
             <tr>
-              <th class="col-4">Aufgaben</th>
-              <th class="col-1">Status</th>
-              <th class="col-2">erledigen</th>
+              <th class="col-4">task</th>
+              <th class="col-1">state</th>
+              <th class="col-2">action</th>
+              <th class="col-2">owner</th>
             </tr>
           </thead>
           <tbody id="tasksTableBody">
@@ -45,22 +46,7 @@
   </div>
 
   <script>
-    var searchInput = document.getElementById("searchInput");
-    var TableBody = document.getElementById("odersTableBody");
-
-    searchInput.addEventListener("keyup", function () {
-      var filter = searchInput.value.toLowerCase();
-      var rows = TableBody.getElementsByTagName("tr");
-
-      for (var i = 0; i < rows.length; i++) {
-        var cell = rows[i].getElementsByTagName("td")[0];
-        if (cell) {
-          var text = cell.innerText.toLowerCase();
-          rows[i].style.display = text.indexOf(filter) > -1 ? "" : "none";
-        }
-      }
-    });
-
+    searchTable("searchInput", "odersTableBody")
 
 
     // Funktion aufrufen, wenn die Seite geladen ist

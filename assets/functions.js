@@ -138,6 +138,16 @@ function fillTableWithTasks(data) {
 
         row.appendChild(buttonCell);
 
+        var ownerCell = document.createElement('td');
+        var ownerSpan = document.createElement('span');
+
+        ownerSpan.textContent = task.owner;
+        ownerSpan.classList.add('badge', 'bg-primary');
+
+        ownerCell.appendChild(ownerSpan);
+
+        row.appendChild(ownerCell);
+
         // Zeile zur Tabelle hinzufügen
         tableBody.appendChild(row);
     }

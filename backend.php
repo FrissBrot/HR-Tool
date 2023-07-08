@@ -15,9 +15,9 @@ $names = [
 ];
 
 $tasksTimo = [
-  ["id" => 1, "date" => "19.07.2023", "name" => "ad user löschen", "status" => "erledigt"],
-  ["id" => 2, "date" => "19.07.2023", "name" => "mailbox deaktivieren", "status" => "offen"],
-  ["id" => 3, "date" => "19.07.2023", "name" => "deaktivieren", "status" => "erledigt"],
+  ["id" => 1, "date" => "19.07.2023", "name" => "ad user löschen", "status" => "erledigt", "owner" => "Timo Weber"],
+  ["id" => 2, "date" => "19.07.2023", "name" => "mailbox deaktivieren", "status" => "offen", "owner" => "Timo Weber"],
+  ["id" => 3, "date" => "19.07.2023", "name" => "deaktivieren", "status" => "erledigt", "owner" => "Kimo Strupler"],
 ];
 
 $tasksJohn = [
